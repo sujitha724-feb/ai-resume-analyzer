@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Resume Analyzer</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="container">
+
+        <h1>AI Resume Analyzer</h1>
+
+        <p>
+            Analyze your resume and discover areas for improvement.
+        </p>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <section class="upload-card">
+
+        <h2>Upload Your Resume</h2>
+
+        <p>
+            Upload your resume in PDF format.
+        </p>
+
+        {% if error %}
+
+            <div class="error">
+                {{ error }}
+            </div>
+
+        {% endif %}
+
+
+        <form method="POST"
+              enctype="multipart/form-data">
+
+            <label for="resume">
+                Choose Resume
+            </label>
+
+            <input
+                type="file"
+                id="resume"
+                name="resume"
+                accept=".pdf"
+                required
+            >
+
+            <button type="submit">
+                Analyze Resume
+            </button>
+
+        </form>
+
+    </section>
+
+
+    {% if result %}
+
+    <section class="results">
+
+        <h2>Resume Analysis</h2>
+
+
+        <div class="score-card">
+
+            <span>Resume Score</span>
+
+            <strong>
+                {{ result.score }}/100
+            </strong>
+
+        </div>
+
+
+        <div class="result-box">
+
+            <h3>Skills Found</h3>
+
+            {% if result.skills %}
+
+                <div class="skills">
+
+                    {% for skill in result.skills %}
+
+                        <span>{{ skill }}</span>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <p>No supported skills were detected.</p>
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="result-box">
+
+            <h3>Suggestions</h3>
+
+            <ul>
+
+                {% for suggestion in result.suggestions %}
+
+                    <li>{{ suggestion }}</li>
+
+                {% endfor %}
+
+            </ul>
+
+        </div>
+
+    </section>
+
+    {% endif %}
+
+</main>
+
+
+<footer>
+
+    <p>
+        Built by Sujitha Darshanapu
+    </p>
+
+</footer>
+
+
+<script src="{{ url_for('static', filename='script.js') }}">
+</script>
+
+</body>
+
+</html>
